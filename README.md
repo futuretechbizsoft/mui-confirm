@@ -146,7 +146,7 @@ const App = () => {
 };
 ```
 
-<!-- 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 -->
+<!-- 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 -->
 
 <!-- npx chromatic --project-token=chpt_e9e952ef9bf3ce5 -->
 
