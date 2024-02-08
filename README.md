@@ -1,4 +1,4 @@
-# Material-UI confirm [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/dharmesh-r-patel/infinite-material-ui-confirm/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/material-ui-confirm.svg)](https://www.npmjs.com/package/infinite-material-ui-confirm) [![Actions Status](https://github.com/dharmesh-r-patel/infinite-material-ui-confirm/workflows/Test/badge.svg)](https://github.com/dharmesh-r-patel/infinite-material-ui-confirm/actions) [![Coverage Status](https://coveralls.io/repos/github/dharmesh-r-patel/infinite-material-ui-confirm/badge.svg?branch=master)](https://coveralls.io/github/dharmesh-r-patel/infinite-material-ui-confirm?branch=master)
+# Material-UI confirm [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/dharmesh-r-patel/infinite-material-ui-confirm/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/material-ui-confirm.svg)](https://www.npmjs.com/package/infinite-material-ui-confirm)
 
 > Confirming user choice is a good thing to do, it should also be easy to do.
 
