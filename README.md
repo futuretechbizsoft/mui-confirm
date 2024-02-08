@@ -147,3 +147,8 @@ const App = () => {
 ```
 
 <!-- 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 -->
+
+<!-- npx chromatic --project-token=chpt_e9e952ef9bf3ce5 -->
+
+<!-- https://www.chromatic.com/setup?appId=65c479e83c86867fbe00f056 -->
+
