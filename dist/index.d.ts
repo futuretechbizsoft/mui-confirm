@@ -26,6 +26,9 @@ export interface ConfirmOptions {
   hideCancelButton?: boolean;
   buttonOrder?: string[];
   icon?: any;
+  titleIcon?: any;
+  closeIcon?: boolean;
+  disableEscapeKeyDown?: boolean
 }
 
 export interface ConfirmProviderProps {

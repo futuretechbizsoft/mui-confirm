@@ -11,6 +11,8 @@ var DialogContentText = require('@mui/material/DialogContentText');
 var DialogTitle = require('@mui/material/DialogTitle');
 var TextField = require('@mui/material/TextField');
 var Stack = require('@mui/material/Stack');
+var IconButton = require('@mui/material/IconButton');
+var CloseIcon = require('@mui/icons-material/Close');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -23,6 +25,8 @@ var DialogContentText__default = /*#__PURE__*/_interopDefaultLegacy(DialogConten
 var DialogTitle__default = /*#__PURE__*/_interopDefaultLegacy(DialogTitle);
 var TextField__default = /*#__PURE__*/_interopDefaultLegacy(TextField);
 var Stack__default = /*#__PURE__*/_interopDefaultLegacy(Stack);
+var IconButton__default = /*#__PURE__*/_interopDefaultLegacy(IconButton);
+var CloseIcon__default = /*#__PURE__*/_interopDefaultLegacy(CloseIcon);
 
 function _iterableToArrayLimit(r, l) {
   var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
@@ -165,7 +169,10 @@ var ConfirmationDialog = function ConfirmationDialog(_ref) {
     confirmationKeywordTextFieldProps = options.confirmationKeywordTextFieldProps,
     hideCancelButton = options.hideCancelButton,
     buttonOrder = options.buttonOrder,
-    icon = options.icon;
+    icon = options.icon,
+    titleIcon = options.titleIcon,
+    closeIcon = options.closeIcon,
+    disableEscapeKeyDown = options.disableEscapeKeyDown;
   var _React$useState = React__default["default"].useState(""),
     _React$useState2 = _slicedToArray(_React$useState, 2),
     confirmationKeywordValue = _React$useState2[0],
@@ -173,6 +180,42 @@ var ConfirmationDialog = function ConfirmationDialog(_ref) {
   React.useEffect(function () {
     onConfirmationText(confirmationKeywordValue);
   }, [confirmationKeywordValue, onConfirmationText]);
+  var handleKeyDown = function handleKeyDown(event) {
+    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+      var activeEle = document.activeElement;
+      var isButton = buttonOrder.includes(activeEle.id);
+      if (!isButton) return;
+      var btnCount = buttonOrder.length;
+      var eleIndex = buttonOrder.indexOf(activeEle.id);
+      var btnName = '';
+      if (event.key === 'ArrowRight') {
+        if (btnCount === eleIndex + 1) {
+          btnName = buttonOrder[0];
+        } else {
+          btnName = buttonOrder[eleIndex + 1];
+        }
+      }
+      if (event.key === 'ArrowLeft') {
+        if (eleIndex === 0) {
+          btnName = buttonOrder[buttonOrder.length - 1];
+        } else {
+          btnName = buttonOrder[eleIndex - 1];
+        }
+      }
+      var btn = document.getElementById(btnName);
+      if (btn) {
+        btn.tabIndex = '-1';
+        btn.focus();
+      }
+    }
+  };
+  React.useEffect(function () {
+    if (open) {
+      document.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [open]);
   var confirmationButtonDisabled = confirmationKeyword && confirmationKeywordValue !== confirmationKeyword;
   var confirmationContent = /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, confirmationKeyword && /*#__PURE__*/React__default["default"].createElement(TextField__default["default"], _extends({
     onChange: function onChange(e) {
@@ -184,6 +227,7 @@ var ConfirmationDialog = function ConfirmationDialog(_ref) {
   var dialogActions = buttonOrder.map(function (buttonType) {
     if (buttonType === "cancel") {
       return !hideCancelButton && /*#__PURE__*/React__default["default"].createElement(Button__default["default"], _extends({
+        id: "cancel",
         key: "cancel"
       }, cancellationButtonProps, {
         onClick: onCancel
@@ -191,6 +235,7 @@ var ConfirmationDialog = function ConfirmationDialog(_ref) {
     }
     if (buttonType === "confirm") {
       return /*#__PURE__*/React__default["default"].createElement(Button__default["default"], _extends({
+        id: "confirm",
         key: "confirm",
         color: "primary",
         disabled: confirmationButtonDisabled
@@ -200,6 +245,7 @@ var ConfirmationDialog = function ConfirmationDialog(_ref) {
     }
     if (buttonType === "optional") {
       return /*#__PURE__*/React__default["default"].createElement(Button__default["default"], _extends({
+        id: "optional",
         key: "optional"
       }, optionalButtonProps, {
         onClick: onOptional
@@ -212,8 +258,26 @@ var ConfirmationDialog = function ConfirmationDialog(_ref) {
   }, dialogProps, {
     open: open,
     onClose: allowClose ? onClose : null,
-    disableRestoreFocus: true
-  }), title && /*#__PURE__*/React__default["default"].createElement(DialogTitle__default["default"], titleProps, title), content ? /*#__PURE__*/React__default["default"].createElement(DialogContent__default["default"], contentProps, /*#__PURE__*/React__default["default"].createElement(DialogContentText__default["default"], null, /*#__PURE__*/React__default["default"].createElement(Stack__default["default"], {
+    disableRestoreFocus: true,
+    disableEscapeKeyDown: disableEscapeKeyDown
+  }), title && /*#__PURE__*/React__default["default"].createElement(DialogTitle__default["default"], titleProps, /*#__PURE__*/React__default["default"].createElement(Stack__default["default"], {
+    direction: "row",
+    alignItems: "center",
+    gap: 1,
+    component: "span"
+  }, titleIcon, title)), closeIcon && /*#__PURE__*/React__default["default"].createElement(IconButton__default["default"], {
+    "aria-label": "close",
+    onClick: onCancel,
+    sx: {
+      position: 'absolute',
+      right: 8,
+      top: 8,
+      color: function color(theme) {
+        return theme.palette.grey[500];
+      }
+    },
+    tabIndex: -1
+  }, /*#__PURE__*/React__default["default"].createElement(CloseIcon__default["default"], null)), content ? /*#__PURE__*/React__default["default"].createElement(DialogContent__default["default"], contentProps, /*#__PURE__*/React__default["default"].createElement(DialogContentText__default["default"], null, /*#__PURE__*/React__default["default"].createElement(Stack__default["default"], {
     direction: "row",
     alignItems: "center",
     gap: 1,
@@ -225,6 +289,10 @@ var ConfirmationDialog = function ConfirmationDialog(_ref) {
     component: "span"
   }, icon, " ", description)), confirmationContent) : confirmationKeyword && /*#__PURE__*/React__default["default"].createElement(DialogContent__default["default"], contentProps, confirmationContent), /*#__PURE__*/React__default["default"].createElement(DialogActions__default["default"], dialogActionsProps, dialogActions));
 };
+
+/* <Grid container direction="row" alignItems="center" component={"span"}>
+    {icon} {description}
+</Grid> */
 
 var DEFAULT_OPTIONS = {
   title: "Are you sure?",
@@ -244,7 +312,10 @@ var DEFAULT_OPTIONS = {
   confirmationKeywordTextFieldProps: {},
   hideCancelButton: false,
   buttonOrder: ["cancel", "confirm"],
-  icon: null
+  icon: null,
+  titleIcon: null,
+  closeIcon: null,
+  disableEscapeKeyDown: false
 };
 var buildOptions = function buildOptions(defaultOptions, options) {
   var dialogProps = _objectSpread2(_objectSpread2({}, defaultOptions.dialogProps || DEFAULT_OPTIONS.dialogProps), options.dialogProps || {});
