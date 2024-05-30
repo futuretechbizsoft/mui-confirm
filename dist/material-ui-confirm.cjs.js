@@ -209,13 +209,18 @@ var ConfirmationDialog = function ConfirmationDialog(_ref) {
       }
     }
   };
+
+  // useEffect(() => {
+
+  //   if (open) {
+  //       document.addEventListener('keydown', handleKeyDown);
+  //   } else {
+  //       document.removeEventListener('keydown', handleKeyDown);
+  //   }
+  // }, [open]);
   React.useEffect(function () {
-    if (open) {
-      document.addEventListener('keydown', handleKeyDown);
-    } else {
-      document.removeEventListener('keydown', handleKeyDown);
-    }
-  }, [open]);
+    document.addEventListener('keydown', handleKeyDown);
+  }, []);
   var confirmationButtonDisabled = confirmationKeyword && confirmationKeywordValue !== confirmationKeyword;
   var confirmationContent = /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, confirmationKeyword && /*#__PURE__*/React__default["default"].createElement(TextField__default["default"], _extends({
     onChange: function onChange(e) {
